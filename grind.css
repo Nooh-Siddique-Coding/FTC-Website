@@ -1,0 +1,113 @@
+/* ===== GRIND MODE / HARDCORE NEON CSS ===== */
+
+:root {
+  --grind-dark: #010308;
+  --grind-glow: #00c8ff;
+  --grind-glow-soft: rgba(0, 200, 255, 0.35);
+  --grind-text: #e6f9ff;
+  --grind-card-bg: rgba(0, 7, 18, 0.6);
+  --grind-border: rgba(0, 200, 255, 0.45);
+}
+
+body {
+  background: var(--grind-dark);
+  color: var(--grind-text);
+  font-family: 'Poppins', sans-serif;
+  overflow-x: hidden;
+}
+
+/* Hero Section */
+.work-hero {
+  padding: 140px 10vw 120px;
+  text-align: center;
+  background: linear-gradient(180deg, rgba(0, 200, 255, 0.25) 0%, transparent 80%);
+  position: relative;
+}
+
+.work-hero h1 {
+  font-size: 4rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-shadow: 0 0 25px var(--grind-glow);
+}
+
+.work-hero p {
+  margin-top: 15px;
+  font-size: 1.25rem;
+  opacity: 0.85;
+}
+
+/* Animated Energy Lines */
+.work-hero::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, rgba(0, 200, 255, 0.15), transparent 70%);
+  animation: pulseGlow 4s infinite;
+  pointer-events: none;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.9; }
+}
+
+/* Stat Grid */
+.grind-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 35px;
+  padding: 80px 10vw;
+}
+
+.grind-card {
+  padding: 40px;
+  background: var(--grind-card-bg);
+  border: 1px solid var(--grind-border);
+  backdrop-filter: blur(14px);
+  border-radius: 14px;
+  box-shadow: 0 0 25px var(--grind-glow-soft);
+  text-align: center;
+  transition: 0.3s;
+}
+
+.grind-card:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 0 45px var(--grind-glow);
+}
+
+.grind-number {
+  font-size: 3.5rem;
+  font-weight: 700;
+  text-shadow: 0 0 20px var(--grind-glow);
+  margin-bottom: 8px;
+}
+
+.grind-label {
+  font-size: 1.1rem;
+  opacity: 0.85;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* Section Divider */
+.glow-divider {
+  height: 4px;
+  width: 60%;
+  margin: 80px auto;
+  background: linear-gradient(90deg, transparent, var(--grind-glow), transparent);
+  box-shadow: 0 0 25px var(--grind-glow);
+}
+
+/* Grit Message Section */
+.grind-message {
+  text-align: center;
+  padding: 100px 12vw;
+  font-size: 1.5rem;
+  opacity: 0.9;
+  line-height: 1.55;
+}

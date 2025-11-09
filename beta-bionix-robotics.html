@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beta Bionix Robotics | Advanced Autonomous Systems</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #000;
+            color: #e0e0e0;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 14, 39, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0, 183, 255, 0.3);
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00b7ff, #00e5ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #4dd0e1;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: #00e5ff;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f1523 100%);
+        }
+
+        .grid-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 183, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 183, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 50% 50%, rgba(0, 183, 255, 0.15) 0%, transparent 50%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 2rem;
+            max-width: 1400px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: rgba(0, 183, 255, 0.1);
+            border: 1px solid #00b7ff;
+            border-radius: 50px;
+            color: #00e5ff;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+        }
+
+        .hero-title {
+            font-size: 5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #00b7ff, #4dd0e1, #00e5ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { filter: drop-shadow(0 0 30px rgba(0, 183, 255, 0.6)); }
+            50% { filter: drop-shadow(0 0 50px rgba(0, 183, 255, 0.9)); }
+        }
+
+        .hero-subtitle {
+            font-size: 1.8rem;
+            color: #b0b0b0;
+            margin-bottom: 3rem;
+            font-weight: 300;
+            line-height: 1.6;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #00b7ff, #00e5ff);
+            color: #0a0e27;
+            padding: 1.2rem 3rem;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 30px rgba(0, 183, 255, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 40px rgba(0, 229, 255, 0.6);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #00e5ff;
+            padding: 1.2rem 3rem;
+            font-size: 1.1rem;
+            border: 2px solid #00b7ff;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 183, 255, 0.1);
+            transform: translateY(-3px);
+        }
+
+        /* Robot Visual */
+        .robot-container {
+            margin: 4rem auto 3rem;
+            position: relative;
+            width: 600px;
+            height: 400px;
+        }
+
+        .robot-frame {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .robot-main {
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, rgba(0, 183, 255, 0.2), rgba(77, 208, 225, 0.3));
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 80px rgba(0, 183, 255, 0.5);
+            border: 2px solid rgba(0, 183, 255, 0.6);
+            position: relative;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .orbit {
+            position: absolute;
+            border: 2px solid rgba(0, 183, 255, 0.3);
+            border-radius: 50%;
+        }
+
+        .orbit-1 {
+            width: 400px;
+            height: 400px;
+            animation: rotate 20s linear infinite;
+        }
+
+        .orbit-2 {
+            width: 500px;
+            height: 500px;
+            animation: rotate 30s linear infinite reverse;
+        }
+
+        .orbit-dot {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #00e5ff;
+            border-radius: 50%;
+            box-shadow: 0 0 20px #00e5ff;
+        }
+
+        .orbit-1 .orbit-dot { top: -6px; left: 50%; }
+        .orbit-2 .orbit-dot { top: 50%; right: -6px; }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .robot-icon {
+            font-size: 8rem;
+            filter: drop-shadow(0 0 30px rgba(0, 183, 255, 0.8));
+        }
+
+        /* Stats Section */
+        .stats-section {
+            padding: 5rem 2rem;
+            background: #0a0e27;
+            border-top: 1px solid rgba(0, 183, 255, 0.2);
+        }
+
+        .stats-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #00b7ff, #00e5ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: #4dd0e1;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 6rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: rgba(0, 183, 255, 0.1);
+            border: 1px solid #00b7ff;
+            border-radius: 50px;
+            color: #00e5ff;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            color: #00e5ff;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .section-description {
+            font-size: 1.2rem;
+            color: #b0b0b0;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: rgba(26, 31, 58, 0.5);
+            padding: 3rem;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 183, 255, 0.2);
+            transition: all 0.4s ease;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 183, 255, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: #00e5ff;
+            box-shadow: 0 15px 50px rgba(0, 183, 255, 0.3);
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .feature-title {
+            font-size: 1.8rem;
+            color: #00e5ff;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .feature-description {
+            color: #b0b0b0;
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+
+        /* Tech Specs */
+        .specs-section {
+            padding: 6rem 2rem;
+            background: #0a0e27;
+            border-top: 1px solid rgba(0, 183, 255, 0.2);
+        }
+
+        .specs-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .spec-category {
+            background: rgba(26, 31, 58, 0.4);
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 183, 255, 0.2);
+        }
+
+        .spec-category-title {
+            font-size: 1.5rem;
+            color: #00e5ff;
+            margin-bottom: 2rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .spec-category-icon {
+            font-size: 2rem;
+        }
+
+        .spec-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(77, 208, 225, 0.15);
+        }
+
+        .spec-item:last-child {
+            border-bottom: none;
+        }
+
+        .spec-label {
+            color: #4dd0e1;
+            font-weight: 600;
+        }
+
+        .spec-value {
+            color: #e0e0e0;
+            text-align: right;
+        }
+
+        /* Applications */
+        .applications-section {
+            padding: 6rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .applications-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .application-card {
+            background: rgba(26, 31, 58, 0.5);
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 183, 255, 0.2);
+            text-align: center;
+            transition: all 0.4s ease;
+        }
+
+        .application-card:hover {
+            transform: translateY(-10px);
+            border-color: #00e5ff;
+            box-shadow: 0 15px 50px rgba(0, 183, 255, 0.3);
+        }
+
+        .application-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .application-title {
+            font-size: 1.4rem;
+            color: #00e5ff;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .application-description {
+            color: #b0b0b0;
+            line-height: 1.7;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, rgba(0, 183, 255, 0.1), rgba(26, 31, 58, 0.3));
+            border-top: 1px solid rgba(0, 183, 255, 0.2);
+            text-align: center;
+        }
+
+        .cta-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta-title {
+            font-size: 3rem;
+            color: #00e5ff;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+
+        .cta-description {
+            font-size: 1.3rem;
+            color: #b0b0b0;
+            margin-bottom: 3rem;
+            line-height: 1.8;
+        }
+
+        /* Footer */
+        footer {
+            background: #0a0e27;
+            padding: 3rem 2rem;
+            border-top: 1px solid rgba(0, 183, 255, 0.2);
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00b7ff, #00e5ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .footer-text {
+            color: #4dd0e1;
+            margin-bottom: 2rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .footer-links a {
+            color: #4dd0e1;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #00e5ff;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            .robot-container {
+                width: 100%;
+                height: 300px;
+            }
+            .robot-main {
+                width: 200px;
+                height: 200px;
+            }
+            .robot-icon {
+                font-size: 5rem;
+            }
+            .orbit-1 {
+                width: 280px;
+                height: 280px;
+            }
+            .orbit-2 {
+                width: 350px;
+                height: 350px;
+            }
+            .nav-links {
+                display: none;
+            }
+            .features-grid,
+            .specs-grid,
+            .applications-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-content">
+            <div class="nav-logo">BETA BIONIX</div>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#specs">Specifications</a></li>
+                <li><a href="#applications">Applications</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="grid-bg"></div>
+        <div class="hero-content">
+            <div class="hero-badge">Next-Gen Robotics Platform</div>
+            <h1 class="hero-title">BETA BIONIX</h1>
+            <p class="hero-subtitle">Autonomous Intelligence. Unmatched Precision.<br>The Future of Robotics is Here.</p>
+            
+            <div class="robot-container">
+                <div class="robot-frame">
+                    <div class="orbit orbit-2">
+                        <div class="orbit-dot"></div>
+                    </div>
+                    <div class="orbit orbit-1">
+                        <div class="orbit-dot"></div>
+                    </div>
+                    <div class="robot-main">
+                        <div class="robot-icon">🤖</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-buttons">
+                <button class="btn-primary" onclick="scrollToSection('features')">Explore Technology</button>
+                <button class="btn-secondary" onclick="scrollToSection('contact')">Request Demo</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">99.7%</div>
+                <div class="stat-label">Mission Success Rate</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">72hrs</div>
+                <div class="stat-label">Continuous Operation</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">360°</div>
+                <div class="stat-label">Environmental Awareness</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">±0.1mm</div>
+                <div class="stat-label">Precision Accuracy</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section" id="features">
+        <div class="section-header">
+            <div class="section-badge">Core Capabilities</div>
+            <h2 class="section-title">Advanced Features</h2>
+            <p class="section-description">Beta Bionix combines cutting-edge artificial intelligence with state-of-the-art mechanical engineering to deliver unprecedented performance in autonomous operations.</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <span class="feature-icon">🧠</span>
+                <h3 class="feature-title">Neural AI Core</h3>
+                <p class="feature-description">Powered by our proprietary Quantum Neural Core X-7, Beta Bionix processes environmental data in real-time, making intelligent decisions with human-level cognition and millisecond response times.</p>
+            </div>
+
+            <div class="feature-card">
+                <span class="feature-icon">👁️</span>
+                <h3 class="feature-title">Omnidirectional Perception</h3>
+                <p class="feature-description">Advanced sensor fusion combining LIDAR, thermal imaging, and electromagnetic spectrum analysis provides complete 360-degree awareness of surroundings in any lighting or weather condition.</p>
+            </div>
+
+            <div class="feature-card">
+                <span class="feature-icon">⚡</span>
+                <h3 class="feature-title">Adaptive Learning System</h3>
+                <p class="feature-description">Machine learning algorithms continuously optimize performance based on operational experience, adapting to new environments and challenges without manual reprogramming.</p>
+            </div>
+
+            <div class="feature-card">
+                <span class="feature-icon">🛡️</span>
+                <h3 class="feature-title">Military-Grade Durability</h3>
+                <p class="feature-description">Constructed with aerospace-grade alloys and reinforced composite materials, Beta Bionix operates reliably in extreme conditions from arctic cold to desert heat.</p>
+            </div>
+
+            <div class="feature-card">
+                <span class="feature-icon">🔋</span>
+                <h3 class="feature-title">Extended Endurance</h3>
+                <p class="feature-description">Revolutionary fusion cell technology provides 72 hours of continuous operation on a single charge, with rapid recharge capability and hot-swappable battery modules.</p>
+            </div>
+
+            <div class="feature-card">
+                <span class="feature-icon">🔐</span>
+                <h3 class="feature-title">Quantum-Encrypted Communication</h3>
+                <p class="feature-description">Military-grade quantum encryption ensures secure, unhackable communication channels with zero-latency command and control across any distance.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technical Specifications -->
+    <section class="specs-section" id="specs">
+        <div class="specs-container">
+            <div class="section-header">
+                <div class="section-badge">Technical Details</div>
+                <h2 class="section-title">System Specifications</h2>
+                <p class="section-description">Enterprise-grade components engineered for maximum reliability and performance in mission-critical applications.</p>
+            </div>
+
+            <div class="specs-grid">
+                <div class="spec-category">
+                    <div class="spec-category-title">
+                        <span class="spec-category-icon">📶</span>
+                        Communication & Control
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Wireless Protocol</span>
+                        <span class="spec-value">5G, WiFi 6E, Satellite</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Encryption</span>
+                        <span class="spec-value">Quantum-grade AES-512</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Control Range</span>
+                        <span class="spec-value">Unlimited (satellite link)</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Latency</span>
+                        <span class="spec-value">&lt;5ms local, &lt;50ms remote</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Applications Section -->
+    <section class="applications-section" id="applications">
+        <div class="section-header">
+            <div class="section-badge">Use Cases</div>
+            <h2 class="section-title">Real-World Applications</h2>
+            <p class="section-description">Beta Bionix adapts to diverse operational environments, delivering mission-critical performance across multiple industries.</p>
+        </div>
+
+        <div class="applications-grid">
+            <div class="application-card">
+                <div class="application-icon">🏭</div>
+                <h3 class="application-title">Industrial Automation</h3>
+                <p class="application-description">Autonomous manufacturing, quality control, warehouse logistics, and hazardous material handling with 24/7 reliability.</p>
+            </div>
+
+            <div class="application-card">
+                <div class="application-icon">🔬</div>
+                <h3 class="application-title">Research & Development</h3>
+                <p class="application-description">Laboratory automation, experimental protocols, data collection in extreme environments, and precision testing operations.</p>
+            </div>
+
+            <div class="application-card">
+                <div class="application-icon">🏗️</div>
+                <h3 class="application-title">Construction & Infrastructure</h3>
+                <p class="application-description">Structural inspection, surveying, heavy equipment operation, and autonomous construction in challenging terrain.</p>
+            </div>
+
+            <div class="application-card">
+                <div class="application-icon">🚨</div>
+                <h3 class="application-title">Emergency Response</h3>
+                <p class="application-description">Search and rescue, disaster assessment, hazmat cleanup, and first responder support in dangerous conditions.</p>
+            </div>
+
+            <div class="application-card">
+                <div class="application-icon">🛡️</div>
+                <h3 class="application-title">Security & Defense</h3>
+                <p class="application-description">Perimeter surveillance, threat detection, ordnance disposal, and tactical reconnaissance in hostile environments.</p>
+            </div>
+
+            <div class="application-card">
+                <div class="application-icon">🌍</div>
+                <h3 class="application-title">Environmental Monitoring</h3>
+                <p class="application-description">Climate research, wildlife tracking, pollution assessment, and ecosystem analysis in remote locations.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section" id="contact">
+        <div class="cta-content">
+            <h2 class="cta-title">Ready to Deploy the Future?</h2>
+            <p class="cta-description">Join leading organizations worldwide who trust Beta Bionix for their most critical autonomous operations. Contact our team to schedule a demonstration.</p>
+            <div class="hero-buttons">
+                <button class="btn-primary">Request Consultation</button>
+                <button class="btn-secondary">Download Specs</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">BETA BIONIX ROBOTICS</div>
+            <p class="footer-text">Pioneering the Next Generation of Autonomous Systems</p>
+            <div class="footer-links">
+                <a href="#features">Features</a>
+                <a href="#specs">Specifications</a>
+                <a href="#applications">Applications</a>
+                <a href="#contact">Contact</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+            </div>
+            <p style="color: #4dd0e1; margin-top: 2rem; font-size: 0.9rem;">© 2025 Beta Bionix Robotics. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function scrollToSection(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                const offset = 80;
+                const elementPosition = element.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - offset;
+                
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        // Parallax effect on scroll
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const scrolled = window.pageYOffset;
+                    const hero = document.querySelector('.hero');
+                    if (hero && scrolled < window.innerHeight) {
+                        hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+                        hero.style.opacity = 1 - (scrolled / 700);
+                    }
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+
+        // Mouse move effect for hero (only on desktop)
+        if (window.innerWidth > 768) {
+            document.addEventListener('mousemove', (e) => {
+                const hero = document.querySelector('.hero-content');
+                if (hero) {
+                    const x = (e.clientX / window.innerWidth - 0.5) * 15;
+                    const y = (e.clientY / window.innerHeight - 0.5) * 15;
+                    hero.style.transform = `translate(${x}px, ${y}px)`;
+                }
+            });
+        }
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all cards
+        document.querySelectorAll('.feature-card, .application-card, .spec-category, .stat-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+
+        // Navbar background on scroll
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.style.background = 'rgba(10, 14, 39, 0.95)';
+                nav.style.boxShadow = '0 5px 30px rgba(0, 183, 255, 0.2)';
+            } else {
+                nav.style.background = 'rgba(10, 14, 39, 0.9)';
+                nav.style.boxShadow = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
+                        <span class="spec-category-icon">💻</span>
+                        Processing & Intelligence
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Core Processor</span>
+                        <span class="spec-value">Quantum Neural Core X-7</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Processing Power</span>
+                        <span class="spec-value">15 TFLOPS</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Neural Networks</span>
+                        <span class="spec-value">Deep Learning, CNNs, RNNs</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Memory</span>
+                        <span class="spec-value">256GB RAM, 2TB SSD</span>
+                    </div>
+                </div>
+
+                <div class="spec-category">
+                    <div class="spec-category-title">
+                        <span class="spec-category-icon">📡</span>
+                        Sensors & Perception
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">LIDAR Range</span>
+                        <span class="spec-value">200m, 360° coverage</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Cameras</span>
+                        <span class="spec-value">8x 4K @ 120fps</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Thermal Imaging</span>
+                        <span class="spec-value">640x480 @ 30Hz</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Ultrasonic Sensors</span>
+                        <span class="spec-value">12x proximity detection</span>
+                    </div>
+                </div>
+
+                <div class="spec-category">
+                    <div class="spec-category-title">
+                        <span class="spec-category-icon">⚙️</span>
+                        Mechanical Systems
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Locomotion</span>
+                        <span class="spec-value">All-terrain adaptive system</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Maximum Speed</span>
+                        <span class="spec-value">8 m/s (28.8 km/h)</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Manipulator Arms</span>
+                        <span class="spec-value">7-DOF, 50kg payload</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Precision</span>
+                        <span class="spec-value">±0.1mm repeatability</span>
+                    </div>
+                </div>
+
+                <div class="spec-category">
+                    <div class="spec-category-title">
+                        <span class="spec-category-icon">🔌</span>
+                        Power & Endurance
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Power Source</span>
+                        <span class="spec-value">Fusion Cell Technology</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Runtime</span>
+                        <span class="spec-value">72 hours continuous</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Recharge Time</span>
+                        <span class="spec-value">2 hours (80% capacity)</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Battery Modules</span>
+                        <span class="spec-value">Hot-swappable design</span>
+                    </div>
+                </div>
+
+                <div class="spec-category">
+                    <div class="spec-category-title">
+                        <span class="spec-category-icon">🌡️</span>
+                        Environmental Ratings
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Operating Temp</span>
+                        <span class="spec-value">-40°C to 85°C</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Water Resistance</span>
+                        <span class="spec-value">IP68 (3m, 30min)</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Shock Resistance</span>
+                        <span class="spec-value">MIL-STD-810G certified</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Dust Protection</span>
+                        <span class="spec-value">Complete ingress protection</span>
+                    </div>
+                </div>
+
+                <div class="spec-category">
+                    <div class="spec-category-title">
