@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beta Bionix Robotics | Advanced Autonomous Systems</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #000;
+            color: #e0e0e0;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 14, 39, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0, 183, 255, 0.3);
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00b7ff, #00e5ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #4dd0e1;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: #00e5ff;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f1523 100%);
+        }
+
+        .grid-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 183, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 183, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 50% 50%, rgba(0, 183, 255, 0.15) 0%, transparent 50%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 2rem;
+            max-width: 1400px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: rgba(0, 183, 255, 0.1);
+            border: 1px solid #00b7ff;
+            border-radius: 50px;
+            color: #00e5ff;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+        }
+
+        .hero-title {
+            font-size: 5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #00b7ff, #4dd0e1, #00e5ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { filter: drop-shadow(0 0 30px rgba(0, 183, 255, 0.6)); }
+            50% { filter: drop-shadow(0 0 50px rgba(0, 183, 255, 0.9)); }
+        }
+
+        .hero-subtitle {
+            font-size: 1.8rem;
+            color: #b0b0b0;
+            margin-bottom: 3rem;
+            font-weight: 300;
+            line-height: 1.6;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #00b7ff, #00e5ff);
+            color: #0a0e27;
+            padding: 1.2rem 3rem;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 30px rgba(0, 183, 255, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 40px rgba(0, 229, 255, 0.6);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #00e5ff;
+            padding: 1.2rem 3rem;
+            font-size: 1.1rem;
+            border: 2px solid #00b7ff;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 183, 255, 0.1);
+            transform: translateY(-3px);
+        }
+
+        /* Robot Visual */
+        .robot-container {
+            margin: 4rem auto 3rem;
+            position: relative;
+            width: 600px;
+            height: 400px;
+        }
+
+        .robot-frame {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .robot-main {
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, rgba(0, 183, 255, 0.2), rgba(77, 208, 225, 0.3));
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 80px rgba(0, 183, 255, 0.5);
+            border: 2px solid rgba(0, 183, 255, 0.6);
+            position: relative;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .orbit {
+            position: absolute;
+            border: 2px solid rgba(0, 183, 255, 0.3);
+            border-radius: 50%;
+        }
+
+        .orbit-1 {
+            width: 400px;
+            height: 400px;
+            animation: rotate 20s linear infinite;
+        }
+
+        .orbit-2 {
+            width: 500px;
+            height: 500px;
+            animation: rotate 30s linear infinite reverse;
+        }
+
+        .orbit-dot {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #00e5ff;
+            border-radius: 50%;
+            box-shadow: 0 0 20px #00e5ff;
+        }
+
+        .orbit-1 .orbit-dot { top: -6px; left: 50%; }
+        .orbit-2 .orbit-dot { top: 50%; right: -6px; }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .robot-icon {
+            font-size: 8rem;
+            filter: drop-shadow(0 0 30px rgba(0, 183, 255, 0.8));
+        }
+
+        /* Stats Section */
+        .stats-section {
+            padding: 5rem 2rem;
+            background: #0a0e27;
+            border-top: 1px solid rgba(0, 183, 255, 0.2);
+        }
+
+        .stats-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #00b7ff, #00e5ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: #4dd0e1;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 6rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: rgba(0, 183, 255, 0.1);
+            border: 1px solid #00b7ff;
+            border-radius: 50px;
+            color: #00e5ff;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            color: #00e5ff;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .section-description {
+            font-size: 1.2rem;
+            color: #b0b0b0;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: rgba(26, 31, 58, 0.5);
+            padding: 3rem;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 183, 255, 0.2);
+            transition: all 0.4s ease;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 183, 255, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: #00e5ff;
+            box-shadow: 0 15px 50px rgba(0, 183, 255, 0.3);
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .feature-title {
+            font-size: 1.8rem;
+            color: #00e5ff;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .feature-description {
+            color: #b0b0b0;
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+
+        /* Tech Specs */
+        .specs-section {
+            padding: 6rem 2rem;
+            background: #0a0e27;
+            border-top: 1px solid rgba(0, 183, 255, 0.2);
+        }
+
+        .specs-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .spec-category {
+            background: rgba(26, 31, 58, 0.4);
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 183, 255, 0.2);
+        }
+
+        .spec-category-title {
+            font-size: 1.5rem;
+            color: #00e5ff;
+            margin-bottom: 2rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .spec-category-icon {
+            font-size: 2rem;
+        }
+
+        .spec-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(77, 208, 225, 0.15);
+        }
+
+        .spec-item:last-child {
+            border-bottom: none;
+        }
+
+        .spec-label {
+            color: #4dd0e1;
+            font-weight: 600;
+        }
+
+        .spec-value {
+            color: #e0e0e0;
+            text-align: right;
+        }
+
+        /* Applications */
+        .applications-section {
+            padding: 6rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .applications-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .application-card {
+            background: rgba(26, 31, 58, 0.5);
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 183, 255, 0.2);
+            text-align: center;
+            transition: all 0.4s ease;
+        }
+
+        .application-card:hover {
+            transform: translateY(-10px);
+            border-color: #00e5ff;
+            box-shadow: 0 15px 50px rgba(0, 183, 255, 0.3);
+        }
+
+        .application-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .application-title {
+            font-size: 1.4rem;
+            color: #00e5ff;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .application-description {
+            color: #b0b0b0;
+            line-height: 1.7;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, rgba(0, 183, 255, 0.1), rgba(26, 31, 58, 0.3));
+            border-top: 1px solid rgba(0, 183, 255, 0.2);
+            text-align: center;
+        }
+
+        .cta-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta-title {
+            font-size: 3rem;
+            color: #00e5ff;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+
+        .cta-description {
+            font-size: 1.3rem;
+            color: #b0b0b0;
+            margin-bottom: 3rem;
+            line-height: 1.8;
+        }
+
+        /* Footer */
+        footer {
+            background: #0a0e27;
+            padding: 3rem 2rem;
+            border-top: 1px solid rgba(0, 183, 255, 0.2);
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00b7ff, #00e5ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .footer-text {
+            color: #4dd0e1;
+            margin-bottom: 2rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .footer-links a {
+            color: #4dd0e1;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #00e5ff;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            .robot-container {
+                width: 100%;
+                height: 300px;
+            }
+            .robot-main {
+                width: 200px;
+                height: 200px;
+            }
+            .robot-icon {
+                font-size: 5rem;
+            }
+            .orbit-1 {
+                width: 280px;
+                height: 280px;
+            }
+            .orbit-2 {
+                width: 350px;
+                height: 350px;
+            }
+            .nav-links {
+                display: none;
+            }
+            .features-grid,
+            .specs-grid,
+            .applications-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-content">
+            <div class="nav-logo">BETA BIONIX</div>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#specs">Specifications</a></li>
+                <li><a href="#applications">Applications</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="grid-bg"></div>
+        <div class="hero-content">
+            <div class="hero-badge">Next-Gen Robotics Platform</div>
+            <h1 class="hero-title">BETA BIONIX</h1>
+            <p class="hero-subtitle">Autonomous Intelligence. Unmatched Precision.<br>The Future of Robotics is Here.</p>
+            
+            <div class="robot-container">
+                <div class="robot-frame">
+                    <div class="orbit orbit-2">
+                        <div class="orbit-dot"></div>
+                    </div>
+                    <div class="orbit orbit-1">
+                        <div class="orbit-dot"></div>
+                    </div>
+                    <div class="robot-main">
+                        <div class="robot-icon"><img src="Screenshot 2025-11-25 125841.png" style="border-radius: 50%; /* Makes it a perfect circle */  width: 200px;       /* Adjust size */  height: 200px;  object-fit: cover;"></img></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-buttons">
+                <button class="btn-primary" onclick="scrollToSection('features')">Explore Technology</button>
+                <button class="btn-secondary" onclick="scrollToSection('contact')">Request Demo</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">95%</div>
+                <div class="stat-label">Mission Success Rate</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">72hrs</div>
+                <div class="stat-label">Continuous Operation</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">360°</div>
+                <div class="stat-label">Environmental Awareness</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">±0.1mm</div>
+                <div class="stat-label">Precision Accuracy</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section" id="features">
+        <div class="section-header">
+            <div class="section-badge">Core Capabilities</div>
+            <h2 class="section-title">Advanced Features</h2>
+            <p class="section-description">Beta Bionix combines cutting-edge artificial intelligence with state-of-the-art mechanical engineering to deliver unprecedented performance in autonomous operations.</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <span class="feature-icon">🧠</span>
+                <h3 class="feature-title">Strong Autonomous</h3>
+                <p class="feature-description">We made the autonomous by first mapping out the key tasks the robot needed to complete, then using odometry and motion planning to make each movement accurate and repeatable. We programmed step-by-step paths—like driving to a spike mark, placing a game element, and navigating to the backdrop—while using sensors to correct the robot’s position along the way. By combining odometry, trajectory code, and careful testing, we refined each movement until the robot could consistently follow the same route every run. Overall, our auto was built through planning, coding, and constant adjustments to make sure it was fast, smooth, and reliable.</p>
+            </div>
+
+            <div class="feature-card">
+                <span class="feature-icon">👁️</span>
+                <h3 class="feature-title">Odometry Perception</h3>
+                <p class="feature-description">We use odometry in FTC because it lets the robot know its precise location on the field throughout the match, especially during autonomous. Without it, the robot would rely only on motor power and timing, which can easily lead to drifting, misalignment, or missed objectives. Odometry provides accurate X/Y position and heading, allowing the robot to correct its movement, follow paths smoothly, and consistently score game elements in the right spots. In short, we use odometry so the robot can move with precision, reliability, and repeatability, even when the field or wheels aren’t perfect.</p>
+            </div>
+
+            <div class="feature-card">
+                <span class="feature-icon">⚡</span>
+                <h3 class="feature-title">Adaptive Intake</h3>
+                <p class="feature-description">Our GripForce gecko intake uses a tacky, high-friction surface inspired by gecko adhesion to pull game pieces in quickly and securely. The sticky material creates strong grip without needing a lot of downward pressure, which helps the intake stay gentle on pixels while still being fast and reliable. As soon as the intake touches a game piece, the gecko pads latch on and guide it smoothly into the robot, reducing jams and misalignment. This system lets us collect from almost any angle and maintain control even during fast driving, making our cycling much quicker and more consistent.</p>
+            </div>
+
+            <div class="feature-card">
+                <span class="feature-icon">🛡️</span>
+                <h3 class="feature-title">Military-Grade Durability</h3>
+                <p class="feature-description">Our robot is built on a strong, rigid chassis designed to handle high-speed driving, impacts, and the weight of all our mechanisms without flexing. We used durable materials and a reinforced frame layout to keep everything square and stable, which helps maintain accuracy in both tele-op and autonomous. The solid structure also reduces vibration, making our flywheel, intake, and odometry far more consistent. With this sturdy base, the robot can drive aggressively, absorb hits, and keep performing reliably throughout long matches.</p>
+            </div>
+
+            <div class="feature-card">
+                <span class="feature-icon">🔋</span>
+                <h3 class="feature-title">Extended Container</h3>
+                <p class="feature-description">Our funnel container with gecko wheels is designed to smoothly center and secure pixels as they enter the robot. The funnel shape guides the game pieces toward the middle, while the gecko wheels provide gentle but powerful grip to pull them in and keep them stable. Because the wheels use a tacky, adhesive-like surface, they can control the pixels without slipping or needing high speed, which reduces jams and keeps the intake consistent. This system makes transitions from intake to scoring fast and reliable, ensuring that every pixel is aligned correctly before being placed or launched.</p>
+            </div>
+
+            <div class="feature-card">
+                <span class="feature-icon">🔐</span>
+                <h3 class="feature-title">Excellent Outtake</h3>
+                <p class="feature-description">Our robot uses a hooded flywheel as its main launching system, designed to give every shot consistent power and accuracy. The hood helps control the angle of the projectile, guiding it along a smooth, curved path so each launch comes out the same way. The flywheel spins at a high, regulated RPM, and the hood ensures that the ring or pixel makes full contact for maximum energy transfer. This setup lets us fine-tune our shooting distance, tighten our grouping, and maintain reliable performance even during fast cycles. Overall, the hood flywheel gives us a balanced combination of speed, precision, and repeatability in scoring.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">🛞</span>
+                <h3 class="feature-title">Mecanum Wheels</h3>
+                <p class="feature-description">Our robot uses mecanum grip wheels to get precise and smooth omnidirectional movement while still maintaining strong traction. The specialized rollers let the robot strafe, rotate, and move diagonally with ease, giving us full control in tight spaces. Because these are grip-style mecanums, they provide better friction on the field than standard smooth rollers, which improves acceleration, stability, and pushing power. This extra grip also helps our odometry stay accurate by reducing wheel slip. Overall, the mecanum grip wheels give us the agility we need for quick cycling while keeping our movements controlled and consistent.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technical Specifications -->
+    <section class="specs-section" id="specs">
+        <div class="specs-container">
+            <div class="section-header">
+                <div class="section-badge">Technical Details</div>
+                <h2 class="section-title">System Specifications</h2>
+                <p class="section-description">Enterprise-grade components engineered for maximum reliability and performance in mission-critical applications.</p>
+            </div>
+
+            <div class="specs-grid">
+                <div class="spec-category">
+                    <div class="spec-category-title">
+                        <span class="spec-category-icon">📶</span>
+                        Sensors and Perceptions
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Sensors</span>
+                        <span class="spec-value">Odometry</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Encryption</span>
+                        <span class="spec-value">Control Hub</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Perception</span>
+                        <span class="spec-value">Lock on Camera, Moutif Solving</span>
+                    </div>
+                    
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- Applications Section -->
+    
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">BETA BIONIX ROBOTICS</div>
+            <p class="footer-text">Pioneering the Next Generation of Autonomous Systems</p>
+            <div class="footer-links">
+                <a href="#features">Features</a>
+                <a href="#specs">Specifications</a>
+                <a href="#applications">Applications</a>
+                <a href="#contact">Contact</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+            </div>
+            <p style="color: #4dd0e1; margin-top: 2rem; font-size: 0.9rem;">© 2025 Beta Bionix Robotics. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function scrollToSection(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                const offset = 80;
+                const elementPosition = element.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - offset;
+                
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        // Parallax effect on scroll
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const scrolled = window.pageYOffset;
+                    const hero = document.querySelector('.hero');
+                    if (hero && scrolled < window.innerHeight) {
+                        hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+                        hero.style.opacity = 1 - (scrolled / 700);
+                    }
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+
+        // Mouse move effect for hero (only on desktop)
+        if (window.innerWidth > 768) {
+            document.addEventListener('mousemove', (e) => {
+                const hero = document.querySelector('.hero-content');
+                if (hero) {
+                    const x = (e.clientX / window.innerWidth - 0.5) * 15;
+                    const y = (e.clientY / window.innerHeight - 0.5) * 15;
+                    hero.style.transform = `translate(${x}px, ${y}px)`;
+                }
+            });
+        }
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all cards
+        document.querySelectorAll('.feature-card, .application-card, .spec-category, .stat-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+
+        // Navbar background on scroll
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.style.background = 'rgba(10, 14, 39, 0.95)';
+                nav.style.boxShadow = '0 5px 30px rgba(0, 183, 255, 0.2)';
+            } else {
+                nav.style.background = 'rgba(10, 14, 39, 0.9)';
+                nav.style.boxShadow = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
+                       
