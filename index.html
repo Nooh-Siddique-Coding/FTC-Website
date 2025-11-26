@@ -1,353 +1,553 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>BetaBionix — FTC Robotics Team</title>
-  <meta name="description" content="BetaBionix — FTC robotics team site: about, robot gallery, schedule, sponsors, and contact." />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beta Bionix 17595 | FTC Team</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  <style>
-   
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0e27;
+            color: #fff;
+            overflow-x: hidden;
+        }
 
-    :root{
-      --bg-900: #05060a; /* near-black btw  this was the best color scheme i could think of dont blame me*/
-      --bg-800: #071021;
-      --card: rgba(255,255,255,0.03);
-      --muted: #9fb6c6;
-      --accent: #00e5ff; /* electric blue */
-      --accent-2: #00b4d8;
-      --glass: rgba(255,255,255,0.03);
-      --neon-shadow: 0 0 24px rgba(0,229,255,0.12), 0 0 60px rgba(0,180,216,0.06);
-      --radius:14px;
-      --maxwidth:1140px;
-      --card-shadow: 0 18px 60px rgba(2,6,23,0.6);
-      --glass-border: 1px solid rgba(255,255,255,0.04);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    }
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 2rem;
+        }
 
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;padding:28px;display:flex;justify-content:center;align-items:flex-start;min-height:100vh;background:linear-gradient(180deg, #02030a 0%, #061428 35%, #04101b 100%);color:#e9fbff;-webkit-font-smoothing:antialiased;}
+        .halo-bg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(0, 150, 255, 0.3) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+            pointer-events: none;
+        }
 
-    /* glowing animated background waves */
-    body::before{
-      content:'';position:fixed;left:0;top:0;width:100%;height:100%;z-index:0;pointer-events:none;
-      background:radial-gradient(600px 300px at 10% 20%, rgba(0,229,255,0.06), transparent),
-                 radial-gradient(500px 300px at 85% 80%, rgba(0,180,216,0.04), transparent);
-      filter:blur(40px);
-      animation:floatBG 18s linear infinite;
-    }
-    @keyframes floatBG{0%{transform:translateY(0)}50%{transform:translateY(-30px)}100%{transform:translateY(0)}}
+        .halo-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 2px solid rgba(0, 200, 255, 0.4);
+            border-radius: 50%;
+            animation: expand 3s ease-out infinite;
+        }
 
-    .wrap{position:relative;z-index:1; width:100%;max-width:var(--maxwidth);padding:26px;border-radius:18px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));box-shadow:var(--card-shadow);border:var(--glass-border);backdrop-filter: blur(8px) saturate(1.1)}
+        .halo-ring:nth-child(1) {
+            width: 400px;
+            height: 400px;
+            animation-delay: 0s;
+        }
 
-    header{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:18px}
-    .brand{display:flex;align-items:center;gap:14px}
-    .logo{width:68px;height:68px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),var(--accent-2));box-shadow:var(--neon-shadow);flex:0 0 68px;border:2px solid rgba(255,255,255,0.04)}
-    .logo svg{width:44px;height:44px}
+        .halo-ring:nth-child(2) {
+            width: 600px;
+            height: 600px;
+            animation-delay: 1s;
+        }
 
-    .title{font-size:1.25rem;font-weight:800;letter-spacing:0.2px;color:transparent;background:linear-gradient(90deg,#e6ffff,rgba(0,229,255,0.6));-webkit-background-clip:text}
-    .subtitle{font-size:0.85rem;color:var(--muted);margin-top:4px}
+        .halo-ring:nth-child(3) {
+            width: 800px;
+            height: 800px;
+            animation-delay: 2s;
+        }
 
-    nav{display:flex;gap:10px}
-    .nav-btn{background:transparent;border:1px solid transparent;color:var(--muted);padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:700;transition:all .22s}
-    .nav-btn:hover{color:var(--accent);box-shadow:0 6px 20px rgba(0,229,255,0.06), inset 0 0 18px rgba(0,229,255,0.02);transform:translateY(-3px)}
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 0.5;
+                transform: translate(-50%, -50%) scale(1);
+            }
+            50% {
+                opacity: 0.8;
+                transform: translate(-50%, -50%) scale(1.1);
+            }
+        }
 
-    /* hero layout */
-    .hero{display:grid;grid-template-columns:1fr 420px;gap:22px;align-items:stretch}
-    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:20px;border-radius:var(--radius);border:var(--glass-border)}
+        @keyframes expand {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.5);
+            }
+            50% {
+                opacity: 0.6;
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(1.5);
+            }
+        }
 
-    .intro h1{margin:0;font-size:2.05rem;line-height:1.02}
-    .intro p{color:var(--muted);margin:12px 0 18px;font-size:1rem}
+        .content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            max-width: 900px;
+        }
 
-    .cta-row{display:flex;gap:12px}
-    .btn{display:inline-flex;align-items:center;gap:10px;padding:12px 16px;border-radius:12px;border:0;cursor:pointer;font-weight:800}
+        .school-badge {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 200, 255, 0.3);
+            padding: 0.5rem 1.5rem;
+            border-radius: 30px;
+            display: inline-block;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            box-shadow: 0 0 20px rgba(0, 150, 255, 0.2);
+        }
 
-    .btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#00121a;text-shadow:none;padding:12px 18px;box-shadow:0 14px 50px rgba(0,229,255,0.08), 0 6px 22px rgba(0,180,216,0.06);transform:translateZ(0);transition:filter .18s, transform .12s}
-    .btn-primary:hover{filter:brightness(1.05);transform:translateY(-4px);box-shadow:0 18px 70px rgba(0,229,255,0.12)}
-    .btn-primary:active{transform:translateY(-2px)}
+        h1 {
+            font-size: 6rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #00d4ff 0%, #0066ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 40px rgba(0, 150, 255, 0.5);
+            letter-spacing: -3px;
+        }
 
-    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted);padding:10px 14px}
+        .team-number {
+            font-size: 1.5rem;
+            color: #00d4ff;
+            margin-bottom: 2rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+        }
 
-    .stats{display:flex;gap:12px;margin-top:14px}
-    .stat{flex:1;background:linear-gradient(180deg,rgba(255,255,255,0.01),transparent);padding:14px;border-radius:10px;text-align:center;border:1px solid rgba(255,255,255,0.02)}
-    .stat strong{display:block;font-size:1.1rem}
-    .stat span{color:var(--muted);font-size:0.85rem}
+        .description {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 3rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
 
-    /* robot preview */
-    .robot-preview{display:flex;flex-direction:column;gap:12px}
-    .robot-visual{height:260px;border-radius:12px;background:linear-gradient(180deg, rgba(0,229,255,0.03), rgba(0,180,216,0.01));display:grid;place-items:center;position:relative;overflow:hidden;border:1px solid rgba(0,229,255,0.04)}
+        .buttons {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 4rem;
+        }
 
-    /* neon pulse */
-    .robot-visual::after{content:'';position:absolute;left:50%;top:50%;width:320px;height:320px;border-radius:50%;transform:translate(-50%,-50%);background:radial-gradient(circle, rgba(0,229,255,0.08) 0%, rgba(0,229,255,0.02) 30%, transparent 60%);opacity:0.8;filter:blur(18px);animation:robotPulse 4s ease-in-out infinite}
-    @keyframes robotPulse{0%{transform:translate(-50%,-50%) scale(.96)}50%{transform:translate(-50%,-50%) scale(1.03)}100%{transform:translate(-50%,-50%) scale(.96)}}
+        .btn {
+            padding: 1.2rem 3rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            overflow: hidden;
+        }
 
-    .robot-meta{display:flex;justify-content:space-between;align-items:center}
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
 
-    /* sections */
-    section h2{margin:0 0 8px 0;font-size:1.05rem}
-    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-    .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-    .photo{height:160px;border-radius:12px;overflow:hidden;display:grid;place-items:center;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.12));border:1px solid rgba(255,255,255,0.02);cursor:pointer;transition:transform .26s ease, box-shadow .26s}
-    .photo:hover{transform:translateY(-8px);box-shadow:0 20px 60px rgba(0,229,255,0.03), 0 6px 20px rgba(0,0,0,0.6)}
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
 
-    .team-list{display:flex;gap:12px;flex-wrap:wrap}
-    .member{display:flex;gap:10px;align-items:center;padding:10px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);min-width:220px;transition:transform .22s}
-    .member:hover{transform:translateY(-6px)}
-    .avatar{width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,var(--accent-2),var(--accent));display:grid;place-items:center;font-weight:800;color:#00121a}
+        .btn span {
+            position: relative;
+            z-index: 1;
+        }
 
-    .sponsors{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
-    .sponsor{padding:10px 14px;border-radius:8px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);min-width:96px;text-align:center;font-weight:800;color:var(--muted);border:1px solid rgba(255,255,255,0.02)}
+        .btn-primary {
+            background: linear-gradient(135deg, #00d4ff 0%, #0066ff 100%);
+            color: #fff;
+            box-shadow: 0 10px 30px rgba(0, 150, 255, 0.4);
+        }
 
-    /* contact form */
-    form{display:grid;gap:10px}
-    input,textarea,select{background:transparent;border:1px solid rgba(255,255,255,0.04);padding:12px;border-radius:10px;color:inherit;font-size:0.95rem}
-    textarea{min-height:110px}
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 150, 255, 0.6);
+        }
 
-    footer{margin-top:22px;display:flex;justify-content:space-between;align-items:center;color:var(--muted)}
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: #00d4ff;
+            border: 2px solid #00d4ff;
+            box-shadow: 0 10px 30px rgba(0, 150, 255, 0.2);
+        }
 
-    /* scroll reveal */
-    .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease, transform .6s ease}
-    .reveal.visible{opacity:1;transform:none}
+        .btn-secondary:hover {
+            background: rgba(0, 212, 255, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 150, 255, 0.4);
+        }
 
-    /* responsive */
-    @media (max-width:980px){
-      .hero{grid-template-columns:1fr}
-      .grid-3{grid-template-columns:1fr}
-      .gallery{grid-template-columns:repeat(2,1fr)}
-      .robot-visual{height:220px}
-    }
-    @media (max-width:520px){
-      body{padding:16px}
-      .wrap{padding:16px}
-      .gallery{grid-template-columns:1fr}
-      nav{display:none}
-      .logo{width:56px;height:56px}
-    }
+        .featured-image {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+        }
 
-    /* micro interactions */
-    .btn:active{transform:translateY(1px)}
+        .image-container {
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid rgba(0, 200, 255, 0.3);
+            border-radius: 30px;
+            overflow: hidden;
+            position: relative;
+            aspect-ratio: 16/9;
+            transition: all 0.4s ease;
+            box-shadow: 0 20px 60px rgba(0, 150, 255, 0.4);
+        }
 
-    /* focus styles */
-    .photo:focus{outline:2px solid rgba(0,229,255,0.12);outline-offset:6px}
+        .image-container::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #00d4ff, #0066ff, #00d4ff, #0066ff);
+            background-size: 400% 400%;
+            border-radius: 30px;
+            z-index: -1;
+            animation: gradientShift 3s ease infinite;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
 
-  </style>
+        .image-container:hover::before {
+            opacity: 1;
+        }
+
+        .image-container:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 30px 80px rgba(0, 150, 255, 0.6);
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .image-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120%;
+            height: 120%;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.3) 0%, transparent 70%);
+            filter: blur(40px);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+        }
+
+        .image-container:hover .image-glow {
+            opacity: 1;
+        }
+
+        .image-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(0, 100, 200, 0.2) 0%, rgba(0, 50, 100, 0.2) 100%);
+            font-size: 4rem;
+            color: rgba(0, 200, 255, 0.3);
+        }
+
+        .image-caption {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-style: italic;
+            letter-spacing: 1px;
+        }
+
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle 3s ease-in-out infinite;
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+            display: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(0, 212, 255, 0.8);
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.8);
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 3.5rem;
+            }
+            
+            .description {
+                font-size: 1rem;
+            }
+            
+            .buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <div class="brand">
-        <div class="logo" aria-hidden="true">
-          <!-- robot icon (neon) -->
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="4" y="7" width="16" height="12" rx="2" fill="white" opacity="0.06"/>
-            <path d="M8 11h.01M16 11h.01" stroke="#00121a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M9 3v2" stroke="#00121a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M15 3v2" stroke="#00121a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-        <div>
-          <div class="title">BetaBionix — FTC Robotics</div>
-          <div class="subtitle">Building robots. Building futures.</div>
-        </div>
-      </div>
-
-      <nav aria-label="Main navigation">
-        <button class="nav-btn">About</button>
-        <a hreflang="en" href="beta-bionix-robotics.html"><button class="nav-btn">Robot</button></a>
-        <button class="nav-btn">Team</button>
-        <button class="nav-btn">Sponsors</button>
-        <button class="nav-btn">Contact</button>
-      </nav>
-    </header>
-
-    <main>
-      <section class="hero">
-        <div class="card intro reveal">
-          <h1>Welcome to BetaBionix — FTC Team <span style="color:var(--accent)">#First</span></h1>
-          <p>We are a high-school FIRST Tech Challenge team passionate about engineering, programming, and teamwork. Explore our robots, meet the team, and see where we're competing next.</p>
-
-          <div class="cta-row">
-          <a hreflang="en" href="beta-bionix-robotics.html"> <button class="btn btn-primary" id="learnBtn">Meet the Robot</button></a>
-            <button class="btn btn-ghost" id="joinBtn">Join the Team</button>
-          </div>
-
-          <div class="stats" aria-hidden="true">
-            <div class="stat"><strong>12</strong><span>Active Members</span></div>
-            <div class="stat"><strong>3</strong><span>Robots Built</span></div>
-            <div class="stat"><strong>6</strong><span>Competitions/Year</span></div>
-          </div>
-        </div>
-
-        <aside class="card robot-preview reveal" aria-labelledby="robotTitle">
-          <div class="robot-visual" role="img" aria-label="Robot preview">
-            <!-- stylized robot SVG (keeps the same shapes but neon-ed) -->
-            <svg viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <defs>
-                <linearGradient id="g1" x1="0" x2="1"><stop offset="0" stop-color="#00e5ff" stop-opacity="0.9"/><stop offset="1" stop-color="#00b4d8" stop-opacity="0.7"/></linearGradient>
-              </defs>
-              <g transform="translate(60,40)">
-                <rect x="40" y="90" width="360" height="160" rx="18" fill="url(#g1)" opacity="0.06" stroke="rgba(0,229,255,0.08)"/>
-                <rect x="20" y="30" width="120" height="80" rx="12" fill="#ffffff" opacity="0.03"/>
-                <circle cx="80" cy="70" r="8" fill="#00e5ff" opacity="0.95"/>
-                <g transform="translate(260,150)">
-                  <rect x="0" y="0" width="60" height="60" rx="10" fill="#00e5ff" opacity="0.04"/>
-                </g>
-                <path d="M40 250h360" stroke="rgba(0,229,255,0.03)" stroke-width="8"/>
-              </g>
-            </svg>
-          </div>
-
-          <div class="robot-meta">
-            <div>
-              <div id="robotTitle" style="font-weight:800">BBX-01 "Aegis"</div>
-              <div style="color:var(--muted);font-size:0.92rem">Multi-purpose drivetrain • Precision arm • Vision targeting</div>
-            </div>
-            <div style="text-align:right">
-              <div style="font-weight:800">Season 2025</div>
-              <div style="color:var(--muted);font-size:0.85rem">Weight: 34 lb</div>
-            </div>
-          </div>
-        </aside>
-      </section>
-
-      <section style="display:grid;gap:14px;grid-template-columns:1fr 340px;">
-        <div class="card reveal">
-          <h2>Robots & Gallery</h2>
-          <p style="color:var(--muted);margin-top:6px">A quick look at robots we've designed and built over the seasons. Click images to enlarge.</p>
-
-          <div class="gallery" style="margin-top:10px">
-            <div class="photo" tabindex="0" data-caption="BBX-01 — Aegis"><svg width="120" height="80" viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg"><rect width="120" height="80" rx="8" fill="rgba(255,255,255,0.03)"/></svg></div>
-            <div class="photo" tabindex="0" data-caption="BBX-00 — Prototype"><svg width="120" height="80" viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg"><rect width="120" height="80" rx="8" fill="rgba(255,255,255,0.02)"/></svg></div>
-            <div class="photo" tabindex="0" data-caption="BBX-TR — Training Bot"><svg width="120" height="80" viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg"><rect width="120" height="80" rx="8" fill="rgba(255,255,255,0.025)"/></svg></div>
-          </div>
-
-          <hr style="border:none;border-top:1px solid rgba(255,255,255,0.02);margin:14px 0" />
-
-          <h3 style="margin-bottom:8px">Recent Build Notes</h3>
-          <ul style="color:var(--muted);margin-top:6px">
-            <li>Switched to mecanum+omni hybrid for improved strafing and traction.</li>
-            <li>Integrated ROS-like message layer for local testing and telemetry.</li>
-            <li>Vision pipeline uses OpenCV on board with an external tracking server for analytics.</li>
-          </ul>
-        </div>
-
-        <aside class="card reveal">
-          <h2>Next Events</h2>
-          <div style="color:var(--muted);margin-top:6px">Stay tuned for tournament dates and scrimmages.</div>
-          <div style="margin-top:12px;display:flex;flex-direction:column;gap:8px">
-            <div style="padding:10px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent)"><strong>Nov 22, 2025</strong><div style="color:var(--muted)">Regional Qualifier</div></div>
-            <div style="padding:10px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent)"><strong>Jan 14, 2026</strong><div style="color:var(--muted)">Interleague Scrimmage</div></div>
-            <div style="padding:10px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent)"><strong>Mar 6, 2026</strong><div style="color:var(--muted)">State Championship</div></div>
-          </div>
-        </aside>
-      </section>
-
-      <section style="margin-top:14px;display:grid;gap:14px">
-        <div class="card reveal">
-          <h2>Meet the Team</h2>
-          <div class="team-list" style="margin-top:8px">
+    <div id="particles-js"></div>
+    <div class="stars" id="stars"></div>
+    <div class="particles" id="particles"></div>
+    
+    <div class="hero">
+        <div class="halo-bg"></div>
+        <div class="halo-ring"></div>
+        <div class="halo-ring"></div>
+        <div class="halo-ring"></div>
+        
+        <div class="content">
+            <div class="school-badge">BEAVER LAKE MIDDLE SCHOOL • WASHINGTON</div>
             
-            <div class="member"><div class="avatar">K</div><div><strong>Krish</strong><div style="color:var(--muted)">Lead programmer</div></div></div>
-            <div class="member"><div class="avatar">Y</div><div><strong>Yatharth</strong><div style="color:var(--muted)"> co Build Captain</div></div></div>
-            <div class="member"><div class="avatar">R</div><div><strong>Ram Shreyas</strong><div style="color:var(--muted)">Operator/ Team Captain</div></div></div>
-            <div class="member"><div class="avatar">A</div><div><strong>Anirudh</strong><div style="color:var(--muted)">Driver</div></div></div>
-            <div class="member"><div class="avatar">N</div><div><strong>Nooh</strong><div style="color:var(--muted)">CAD Lead</div></div></div>
-            <div class="member"><div class="avatar">N</div><div><strong>Nila</strong><div style="color:var(--muted)">Co Build Captain</div></div></div>
-          </div>
-        </div>
-
-        <div class="card reveal">
-          <h2>Sponsors</h2>
-          <div class="sponsors" style="margin-top:10px">
-            <div class="sponsor">Acme Labs</div>
-            <div class="sponsor">TechHigh</div>
-            <div class="sponsor">MakerSpace</div>
-          </div>
-        </div>
-      </section>
-
-      <section style="margin-top:14px">
-        <div class="card reveal">
-          <h2>Contact & Join</h2>
-          <p style="color:var(--muted);margin-top:6px">Want to join BetaBionix or ask about mentoring/sponsorship? Send us a message.</p>
-
-          <form id="contactForm" style="margin-top:12px">
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-              <input type="text" name="name" placeholder="Full name" required />
-              <input type="email" name="email" placeholder="Email" required />
+            <h1>BETA BIONIX</h1>
+            
+            <div class="team-number">TEAM 17595</div>
+            
+            <p class="description">
+                Beta Bionix 17595 is a team in Issaquah, Washington, consisting of 16 members, half of which are first-year members. This year, Beta Bionix has been working hard at the DECODE season. Both sub-groups, Build Team And Code Team, had a great experience in this season. From brainstorming to seeing our robot in action, it truly has been a really rewarding process!
+            </p>
+            
+            <div class="buttons">
+                <button class="btn btn-primary" onclick="alert('Meet the Team page coming soon!')">
+                    <span>MEET THE TEAM</span>
+                </button>
+                <button class="btn btn-secondary" onclick="alert('Our Robot page coming soon!')">
+                    <span>OUR ROBOT</span>
+                </button>
             </div>
-            <input type="text" name="subject" placeholder="Subject" />
-            <textarea name="message" placeholder="Tell us a bit about your interest" required></textarea>
-            <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:6px">
-              <button type="reset" class="btn btn-ghost">Reset</button>
-              <button type="submit" class="btn btn-primary">Send Message</button>
+            
+            <div class="featured-image">
+                <div class="image-container">
+                    <div class="image-glow"></div>
+                    <div class="image-placeholder"><img src="Screenshot 2025-11-26 105020.png" alt=""></img></div>
+                </div>
+                <div class="image-caption">Row 1(Left-Right): Eric, Nooh, Anirudh, Ram, Yatharth, Brandon 
+
+​
+
+Row 2(Left-Right): Samantha, Mahika, Sannvi, Arjun, Adu, Nila, Rehan, Sanjay, Yian </div>
             </div>
-            <div id="formMsg" style="color:var(--muted);margin-top:8px;font-size:0.95rem"></div>
-          </form>
         </div>
-      </section>
+    </div>
 
-      <footer>
-        <div>© BetaBionix — FIRST Tech Challenge</div>
-        <div style="color:var(--muted)">Designed with ❤️ for STEM</div>
-      </footer>
-    </main>
-  </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Initialize particles.js
+        particlesJS('particles-js', {
+            particles: {
+                number: {
+                    value: 80,
+                    density: {
+                        enable: true,
+                        value_area: 800
+                    }
+                },
+                color: {
+                    value: '#00d4ff'
+                },
+                shape: {
+                    type: 'circle',
+                    stroke: {
+                        width: 0,
+                        color: '#000000'
+                    }
+                },
+                opacity: {
+                    value: 0.5,
+                    random: true,
+                    anim: {
+                        enable: true,
+                        speed: 1,
+                        opacity_min: 0.1,
+                        sync: false
+                    }
+                },
+                size: {
+                    value: 3,
+                    random: true,
+                    anim: {
+                        enable: true,
+                        speed: 2,
+                        size_min: 0.1,
+                        sync: false
+                    }
+                },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: '#00d4ff',
+                    opacity: 0.4,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: 'none',
+                    random: false,
+                    straight: false,
+                    out_mode: 'out',
+                    bounce: false,
+                    attract: {
+                        enable: false,
+                        rotateX: 600,
+                        rotateY: 1200
+                    }
+                }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: {
+                    onhover: {
+                        enable: true,
+                        mode: 'grab'
+                    },
+                    onclick: {
+                        enable: true,
+                        mode: 'push'
+                    },
+                    resize: true
+                },
+                modes: {
+                    grab: {
+                        distance: 140,
+                        line_linked: {
+                            opacity: 1
+                        }
+                    },
+                    push: {
+                        particles_nb: 4
+                    }
+                }
+            },
+            retina_detect: true
+        });
 
-  <script>
-    // -----------------------
-    // Interactions + micro-animations
-    // -----------------------
+        // Create twinkling stars
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.width = Math.random() * 3 + 'px';
+            star.style.height = star.style.width;
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            starsContainer.appendChild(star);
+        }
 
-    // Smooth scroll for CTA
-    document.getElementById('learnBtn').addEventListener('click', ()=>{
-      // scroll to gallery section (approx)
-      const y = document.querySelector('.gallery')?.getBoundingClientRect().top + window.scrollY - 80;
-      window.scrollTo({top: y, behavior: 'smooth'});
-    });
-    document.getElementById('joinBtn').addEventListener('click', ()=>{
-      const y = document.querySelector('#contactForm')?.getBoundingClientRect().top + window.scrollY - 80;
-      window.scrollTo({top: y, behavior: 'smooth'});
-      document.querySelector('input[name="name"]')?.focus();
-    });
+        // Add parallax effect to halo
+        document.addEventListener('mousemove', (e) => {
+            const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
+            const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
+            
+            document.querySelector('.halo-bg').style.transform = 
+                `translate(calc(-50% + ${moveX}px), calc(-50% + ${moveY}px))`;
+        });
 
-    // Lightweight contact form handler (no backend) — demonstrates client-side validation
-    document.getElementById('contactForm').addEventListener('submit', (e)=>{
-      e.preventDefault();
-      const f = e.target;
-      const name = f.name.value.trim();
-      const email = f.email.value.trim();
-      const msg = f.message.value.trim();
-      const out = document.getElementById('formMsg');
-      if(!name || !email || !msg){ out.textContent = 'Please fill in name, email and a short message.'; out.style.color='orange'; return; }
-      out.style.color = 'lightgreen';
-      out.textContent = 'Thanks, ' + (name.split(' ')[0]||name) + '! Your message is ready to send. (No backend is configured in this demo.)';
-      f.reset();
-    });
-
-    // Gallery click handlers
-    document.querySelectorAll('.photo').forEach(p=>{
-      p.addEventListener('click', ()=> alert(p.dataset.caption || 'Robot'));
-      p.addEventListener('keypress', (e)=>{ if(e.key==='Enter') p.click(); });
-    });
-
-    // Scroll reveal using IntersectionObserver
-    const io = new IntersectionObserver((entries)=>{
-      entries.forEach(ent=>{
-        if(ent.isIntersecting) ent.target.classList.add('visible');
-      });
-    },{threshold:0.12});
-
-    document.querySelectorAll('.reveal').forEach(el=> io.observe(el));
-
-    // subtle nav hover glow (replicates neon trail)
-    document.querySelectorAll('.nav-btn').forEach(b=>{
-      b.addEventListener('mouseenter', ()=> b.style.boxShadow='0 8px 40px rgba(0,229,255,0.06)');
-      b.addEventListener('mouseleave', ()=> b.style.boxShadow='none');
-    });
-
-  </script>
+        // Button ripple effect
+        document.querySelectorAll('.btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const ripple = document.createElement('div');
+                ripple.style.position = 'absolute';
+                ripple.style.borderRadius = '50%';
+                ripple.style.background = 'rgba(255, 255, 255, 0.6)';
+                ripple.style.width = ripple.style.height = '100px';
+                ripple.style.left = e.clientX - this.offsetLeft - 50 + 'px';
+                ripple.style.top = e.clientY - this.offsetTop - 50 + 'px';
+                ripple.style.animation = 'ripple 0.6s ease-out';
+                ripple.style.pointerEvents = 'none';
+                
+                this.appendChild(ripple);
+                
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+    </script>
 </body>
 </html>
